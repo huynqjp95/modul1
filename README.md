@@ -3,3 +3,36 @@
 - login up : tính năng đăng ký
   đọc xác nhận cấu trúc html, DOM
   viết những dòng code đầu tiên.
+
+27/9 bắt đầu project
+tìm hiểu cấu trúc DOM của file html
+validate input form :
+
+28/9-----------------------------------
+đang dừng ở chổ viết function cho password phải có chữ và số --> Ok
+
+- đã xong phần sign up với các chức năng
+  validate cho email, pass, user
+  có thể hiện error theo từng lỗi để trống, pass length < 8, email định dạng
+  pass yêu cầu chử hoa + thường + số
+  với các hàm nhỏ để check trống như hàm isEmpty
+  kiểm tra có đúng email không với regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  kiểm tra pass phải có cả chử hoa và thường với hàm isNotMixedCase(element)  và regex = !/^(?=.*[a-z])(?=.*[A-Z]).+$/
+  kiểm tra pass không kèm số hasNotDigit(e) regex = /[0-9]/
+  isLessThan(e,min) kiểm tra e.value có < min không
+  emailEist(e) kiểm tra email tồn tại chưa
+  ===> lưu ý các hàm này sẽ trả về true nếu lỗi (có nghĩa là nếu input không hợp lệ) , false nếu không lỗi (input hợp lệ)
+- hàm showError(error) nhận vào một object error
+  {
+  type: "sign-up-validation",
+  "email-cannot-blank": isEmpty(email),
+  "password-cannot-blank": isEmpty(password),
+  "username-cannot-blank": isEmpty(userName),
+  }
+  key type để cho biết type error nào
+  các key còn lại là cụ thể error không hợp lệ (true)
+  - hàm validate
+    tạo object error (như trên ) để thể hiện từng lỗi
+    return false nếu chỉ cần 1 input value không hợp lệ
+    return true nếu hợp lệ hết và reset form, kèm theo hiển thị thông báo đăng ký thành công. thêm vào list user , lưu vào local
+    --> củng ok, tạm thời xong phần sign up
