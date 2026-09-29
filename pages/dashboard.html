@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,10 +8,12 @@
     <link
       rel="shortcut icon"
       href="../assets/icons/trello-favicon.png"
-      type="image/x-icon" />
+      type="image/x-icon"
+    />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
     <title>Dashboard</title>
   </head>
   <body>
@@ -30,7 +32,8 @@
         <div class="dashboard-list user-dashboard">
           <img
             src="../assets/icons/user-dashboard-icon.png"
-            alt="User_dashboard" />
+            alt="User_dashboard"
+          />
           <a href="./dashboard.html" class="user-dashboard-link"
             >User dashboard</a
           >
@@ -56,7 +59,8 @@
             type="input"
             id="search-box"
             name="search-box"
-            placeholder="Search user by name" />
+            placeholder="Search user by name"
+          />
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
         <!-- table -->
@@ -84,6 +88,13 @@
           <div class="pagination-element arrow-right">-&gt;</div>
         </div>
       </main>
+    </div>
+    <div id="msg">
+      <!-- Login toast -->
+      <div id="login-toast" class="hidden">
+        <i class="fa-solid fa-circle-check"></i>
+        <span class="toast-title">Đăng nhập thành công</span>
+      </div>
     </div>
 
     <script src="../js/dashboard.js"></script>

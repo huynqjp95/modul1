@@ -116,7 +116,7 @@
 #main #user-table-container {
   margin-left: 48px;
   margin-right: 36px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 500;
 }
 #user-table-container table {
@@ -194,7 +194,7 @@ table .deactive {
 }
 /* pagination */
 #main #pagination {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   display: flex;
   justify-content: flex-start;
@@ -238,4 +238,31 @@ table .deactive {
 /* hidden */
 #pagination .hidden {
   display: none;
+}
+/* msg show dang nhap thanh cong */
+#msg {
+  position: fixed;
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: all 0.5s ease;
+}
+#msg.show {
+  opacity: 1;
+  transform: translateX(0);
+  top: 22px;
+  left: 26px;
+}
+#msg #login-toast {
+  background-color: #e5fff0;
+  padding: 16px 16px 18px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+#login-toast .fa-circle-check {
+  color: #02ee6a;
+  font-size: 20px;
+  margin-right: 3px;
+}
+#login-toast .toast-title {
+  font-size: 14px;
 }

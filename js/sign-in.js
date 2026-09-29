@@ -1,0 +1,43 @@
+// get user list
+const users = JSON.parse(localStorage.getItem("userList")) || [];
+
+//DOM
+const btn = document.querySelector(".btn");
+const hiddenElements = Array.from(document.querySelectorAll(".hidden"));
+
+function resetError(containerId) {
+  document.querySelector(containerId).classList.remove("show");
+  hiddenElements.forEach((e) => {
+    e.classList.add("hidden");
+  });
+}
+
+function showError(containerId, typeId) {
+  document.getElementById(containerId).classList.add("show");
+  document.getElementById(typeId).classList.remove("hidden");
+}
+
+btn.addEventListener("click", (e) => {
+  e.preventDefault();
+  resetError("#msg");
+  let isValid = true;
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  // kiem tra email pass neu de trong thi return
+  if (email.value === "" || password.value === "") {
+    showError("msg", "login-validation");
+    return;
+  }
+  let index = users.findIndex((user) => user.email === email.value);
+  //   console.log(index);
+  if (index == -1) {
+    showError("msg", "login-error");
+    return;
+  }
+  if (users[index].password !== password.value) {
+    showError("msg", "login-error");
+    return;
+  }
+  localStorage.setItem("login", JSON.stringify("success"));
+  window.location.href = "./dashboard.html";
+});
