@@ -36,3 +36,9 @@ validate input form :
     return false nếu chỉ cần 1 input value không hợp lệ
     return true nếu hợp lệ hết và reset form, kèm theo hiển thị thông báo đăng ký thành công. thêm vào list user , lưu vào local
     --> củng ok, tạm thời xong phần sign up
+    29/9-----------------------------------------
+  - bổ sung phần hiển thị toast khi đăng ký thành công và đăng nhập thành công
+    đăng ký thành công --> tự động sang trang đăng nhập --> hiển thị đăng ký thành công
+    đăng nhập thành công --> tự động sang DashBoard --> hiển thị đăng nhập thành công
+    -> sử dụng biến login = "success" đặt xuống localStorage --> sau khi đổi trang thì lấy biến login lên làm điều kiện để thực hiện việc hiển thị toast (tự ẩn sau 3s)
+  - Có thời gian làm chức năng ghi nhớ tài khoảng trong 24h !!

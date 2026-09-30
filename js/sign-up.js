@@ -112,9 +112,7 @@ function validate() {
     showError(error);
     return false;
   }
-  showError({
-    type: "sign-up-toast",
-  });
+
   return true;
 }
 
@@ -134,8 +132,9 @@ btn.onclick = function (e) {
       username: userName.value,
     };
     users.push(newUser);
-    console.log(users);
     localStorage.setItem("userList", JSON.stringify(users));
-    form.reset();
+    //đặt biến login để toast khi thành công đăng ký
+    localStorage.setItem("login", JSON.stringify("success"));
+    window.location.href = "./sign-in.html";
   }
 };

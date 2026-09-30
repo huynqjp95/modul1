@@ -1,12 +1,19 @@
 // get user list
 const users = JSON.parse(localStorage.getItem("userList")) || [];
-
+let login = JSON.parse(localStorage.getItem("login")) || "";
+if (login === "success") {
+  showError("msg", "sign-up-toast");
+  localStorage.setItem("login", JSON.stringify("expired"));
+  setTimeout(() => {
+    resetError("msg");
+  }, 3000);
+}
 //DOM
 const btn = document.querySelector(".btn");
 const hiddenElements = Array.from(document.querySelectorAll(".hidden"));
 
 function resetError(containerId) {
-  document.querySelector(containerId).classList.remove("show");
+  document.getElementById(containerId).classList.remove("show");
   hiddenElements.forEach((e) => {
     e.classList.add("hidden");
   });
@@ -19,7 +26,7 @@ function showError(containerId, typeId) {
 
 btn.addEventListener("click", (e) => {
   e.preventDefault();
-  resetError("#msg");
+  resetError("msg");
   let isValid = true;
   const email = document.getElementById("email");
   const password = document.getElementById("password");
