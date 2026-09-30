@@ -20,6 +20,7 @@
 #header .dashboard-header-empty {
   flex: 5;
 }
+
 /* BODY CONTAINER */
 #body-container {
   display: flex;
@@ -265,4 +266,24 @@ table .deactive {
 }
 #login-toast .toast-title {
   font-size: 14px;
+}
+
+/* buttom update delete */
+.btn {
+  padding: 5px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-edit:hover {
+  background: #e7f0ff;
+  color: #2563eb;
+}
+
+.btn-delete:hover {
+  background: #ffe7e7;
+  color: #dc2626;
 }
