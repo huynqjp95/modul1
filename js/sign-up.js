@@ -128,7 +128,7 @@ btn.onclick = function (e) {
       password: password.value,
       role: "User",
       status: "Active",
-      usercode: Date.now(),
+      usercode: Date.now().toString(),
       username: userName.value,
     };
     users.push(newUser);

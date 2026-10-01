@@ -253,6 +253,7 @@ table .deactive {
   top: 22px;
   left: 26px;
 }
+/* Login toast */
 #msg #login-toast {
   background-color: #e5fff0;
   padding: 16px 16px 18px;
@@ -265,6 +266,21 @@ table .deactive {
   margin-right: 3px;
 }
 #login-toast .toast-title {
+  font-size: 14px;
+}
+/* Edit toast */
+#msg #edit-toast {
+  background-color: #e5fff0;
+  padding: 16px 16px 18px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+#edit-toast .fa-circle-check {
+  color: #02ee6a;
+  font-size: 20px;
+  margin-right: 3px;
+}
+#edit-toast .toast-title {
   font-size: 14px;
 }
 

@@ -1,5 +1,6 @@
 const users = JSON.parse(localStorage.getItem("userList")) || [];
 let login = JSON.parse(localStorage.getItem("login")) || "";
+let editStatus = JSON.parse(localStorage.getItem("editStatus")) || "";
 
 if (login === "success") {
   //show login toast khi dang nhap thanh cong
@@ -10,6 +11,17 @@ if (login === "success") {
   setTimeout(() => {
     document.getElementById("msg").classList.remove("show");
     document.getElementById("login-toast").classList.add("hidden");
+  }, 3000);
+}
+if (editStatus === "success") {
+  //show login toast khi dang nhap thanh cong
+  document.getElementById("msg").classList.add("show");
+  document.getElementById("edit-toast").classList.remove("hidden");
+  // dat bien login thanh expired de khong hien thi login toast lai nua
+  localStorage.setItem("editStatus", JSON.stringify("expired"));
+  setTimeout(() => {
+    document.getElementById("msg").classList.remove("show");
+    document.getElementById("edit-toast").classList.add("hidden");
   }, 3000);
 }
 
@@ -117,6 +129,7 @@ document.getElementById("table-body").addEventListener("click", (e) => {
     const indexEdit = users.findIndex(
       (el) => el.usercode === e.target.dataset.id,
     );
+
     localStorage.setItem("indexEdit", JSON.stringify(indexEdit));
     window.location.href = "./edit-user.html";
   }
