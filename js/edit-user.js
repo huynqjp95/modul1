@@ -1,5 +1,5 @@
 const users = JSON.parse(localStorage.getItem("userList"));
-let indexEdit = JSON.parse(localStorage.getItem("indexEdit"));
+let indexEdit = JSON.parse(localStorage.getItem("edit"));
 
 (() => {
   const userCode = document.getElementById("user-code");
@@ -33,7 +33,7 @@ let indexEdit = JSON.parse(localStorage.getItem("indexEdit"));
   btnSave.onclick = (e) => {
     e.preventDefault();
 
-    if (true) {
+    if (validate()) {
       const newUser = {
         usercode: users[indexEdit].usercode,
         username: userName.value,
@@ -55,6 +55,8 @@ let indexEdit = JSON.parse(localStorage.getItem("indexEdit"));
   //showError function vi phai dung bien msg trong nay nen bo vo day
   function showError(error) {
     msg.classList.add("show");
+    msg.querySelector("#edit-error").classList.remove("hidden");
+
     console.log(msg);
 
     for (const key in error) {
@@ -84,7 +86,6 @@ let indexEdit = JSON.parse(localStorage.getItem("indexEdit"));
       showError(error);
       return false;
     }
-    // nhóm 2 : sign up error
     error = {
       "password-min-length-error": isLessThan(password, 8),
       "password-number-required-error": hasNotDigit(password),
@@ -101,10 +102,9 @@ let indexEdit = JSON.parse(localStorage.getItem("indexEdit"));
 
     return true;
   }
-  console.log(validate());
 })();
 
-// tool check
+// cac tool check
 
 function isEmpty(element) {
   return !element.value ? true : false;

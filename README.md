@@ -1,14 +1,38 @@
-25/9 đưa file lên github , có thể làm được bất cứ đâu
+3/10 ---------------------------------------
 
-- login up : tính năng đăng ký
-  đọc xác nhận cấu trúc html, DOM
-  viết những dòng code đầu tiên.
+- trang Edit
+  Hiển thị thông tin của user edit
+  validate cho các trường được yêu cầu
+  Hiển thị thông báo error theo từng lỗi
 
-27/9 bắt đầu project
-tìm hiểu cấu trúc DOM của file html
-validate input form :
+- Các lưu ý
+  cần comment lại các page cho chuẩn , sẵn ôn tập lại luôn , tuần sau là quên code ngay
+  Copy trang edit bỏ qua trang Add , cần sửa lại một tý nửa là xong
+
+30/9 ------------------------------------------
+
+- trang dashboard
+  chức năng hiển thị mỗi page 5 user
+  nút trái phải tăng giảm page để hiển thị các user khác
+  có hiển thị page hiện tại, có thể chọn page mong muốn khi click
+  search theo username hiển thị theo input người dùng nhập và hiển thị sẽ thay đổi theo
+  có nút delete được user trong list (chưa có làm xác nhận, nhấn btn là xóa)
+  nút edit --> nhảy qua trang edit , hiển thị thông tin của user đã nhấn nút edit
+- các lưu ý
+  trang dashboard đã gần như hoàn thành , còn ít vấn đề như page vẫn hiển thị theo maxpage nếu nhập vào ô search dù số user đã giảm đi --> cái này củng không quan trọng lắm cần thì làm
+
+  nghỉ là cần comment lại các hàm , chức năng hàm ... trông khá lộn xộn
+
+29/9-----------------------------------------
+
+- bổ sung phần hiển thị toast khi đăng ký thành công và đăng nhập thành công
+  đăng ký thành công --> tự động sang trang đăng nhập --> hiển thị đăng ký thành công
+  đăng nhập thành công --> tự động sang DashBoard --> hiển thị đăng nhập thành công
+  -> sử dụng biến login = "success" đặt xuống localStorage --> sau khi đổi trang thì lấy biến login lên làm điều kiện để thực hiện việc hiển thị toast (tự ẩn sau 3s)
+- Có thời gian làm chức năng ghi nhớ tài khoảng trong 24h !!
 
 28/9-----------------------------------
+
 đang dừng ở chổ viết function cho password phải có chữ và số --> Ok
 
 - đã xong phần sign up với các chức năng
@@ -37,24 +61,12 @@ validate input form :
     return true nếu hợp lệ hết và reset form, kèm theo hiển thị thông báo đăng ký thành công. thêm vào list user , lưu vào local
     --> củng ok, tạm thời xong phần sign up
 
-29/9-----------------------------------------
+25/9 đưa file lên github , có thể làm được bất cứ đâu
 
-- bổ sung phần hiển thị toast khi đăng ký thành công và đăng nhập thành công
-  đăng ký thành công --> tự động sang trang đăng nhập --> hiển thị đăng ký thành công
-  đăng nhập thành công --> tự động sang DashBoard --> hiển thị đăng nhập thành công
-  -> sử dụng biến login = "success" đặt xuống localStorage --> sau khi đổi trang thì lấy biến login lên làm điều kiện để thực hiện việc hiển thị toast (tự ẩn sau 3s)
-- Có thời gian làm chức năng ghi nhớ tài khoảng trong 24h !!
+- login up : tính năng đăng ký
+  đọc xác nhận cấu trúc html, DOM
+  viết những dòng code đầu tiên.
 
-30/9 ------------------------------------------
-
-- trang dashboard
-  chức năng hiển thị mỗi page 5 user
-  nút trái phải tăng giảm page để hiển thị các user khác
-  có hiển thị page hiện tại, có thể chọn page mong muốn khi click
-  search theo username hiển thị theo input người dùng nhập và hiển thị sẽ thay đổi theo
-  có nút delete được user trong list (chưa có làm xác nhận, nhấn btn là xóa)
-  nút edit --> nhảy qua trang edit , hiển thị thông tin của user đã nhấn nút edit
-- các lưu ý
-  trang dashboard đã gần như hoàn thành , còn ít vấn đề như page vẫn hiển thị theo maxpage nếu nhập vào ô search dù số user đã giảm đi --> cái này củng không quan trọng lắm cần thì làm
-
-  nghỉ là cần comment lại các hàm , chức năng hàm ... trông khá lộn xộn
+27/9 bắt đầu project
+tìm hiểu cấu trúc DOM của file html
+validate input form :
