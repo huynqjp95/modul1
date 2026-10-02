@@ -1,13 +1,13 @@
 const users = JSON.parse(localStorage.getItem("userList")) || [];
 
 //DOM
-const form = document.querySelector("#sign-up-form");
+// const form = document.querySelector("#sign-up-form");
 const email = document.querySelector("#email");
 const userName = document.querySelector("#username");
 const password = document.querySelector("#password");
 const msg = document.querySelector("#msg");
 const btn = document.querySelector(".btn");
-const dfas = document.getElementById;
+const hiddenList = Array.from(document.querySelectorAll(".hidden"));
 // cac function de validate form
 function isEmpty(element) {
   return !element.value ? true : false;
@@ -40,7 +40,7 @@ function emailExist(element) {
   });
 }
 
-//show error
+//show error chi de hien thi cac tab loi
 function showError(error) {
   msg.classList.add("show");
   for (const key in error) {
@@ -56,20 +56,9 @@ function showError(error) {
 // hidden error
 function resetError() {
   msg.classList.remove("show");
-  document.getElementById("sign-up-validation").classList.add("hidden");
-  document.querySelector(".password-cannot-blank").classList.add("hidden");
-  document.querySelector(".email-cannot-blank").classList.add("hidden");
-  document.querySelector(".username-cannot-blank").classList.add("hidden");
-  document.getElementById("sign-up-toast").classList.add("hidden");
-  document.getElementById("sign-up-error").classList.add("hidden");
-  document.querySelector(".email-error").classList.add("hidden");
-  document.querySelector(".password-min-length-error").classList.add("hidden");
-  document
-    .querySelector(".password-number-required-error")
-    .classList.add("hidden");
-  document
-    .querySelector(".password-uppercase-lowercase-error")
-    .classList.add("hidden");
+  hiddenList.forEach((element) => {
+    element.classList.add("hidden");
+  });
 }
 
 // validate form | hàm validate sẽ trả về true nếu không lỗi và false nếu có lỗi
@@ -126,7 +115,7 @@ btn.onclick = function (e) {
       description: null,
       email: email.value,
       password: password.value,
-      role: "User",
+      role: "user",
       status: "Active",
       usercode: Date.now().toString(),
       username: userName.value,

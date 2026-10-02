@@ -46,5 +46,8 @@ btn.addEventListener("click", (e) => {
     return;
   }
   localStorage.setItem("login", JSON.stringify("success"));
+  // neu nguoi dung nhan login out o dashboard trong khi edit
+  //thi se quay lai trang sign-in nen phat dat ben editStatus het han lai
+  localStorage.setItem("edit", JSON.stringify("expired"));
   window.location.href = "./dashboard.html";
 });

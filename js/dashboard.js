@@ -1,28 +1,26 @@
 const users = JSON.parse(localStorage.getItem("userList")) || [];
 let login = JSON.parse(localStorage.getItem("login")) || "";
-let editStatus = JSON.parse(localStorage.getItem("editStatus")) || "";
+let editStatus = JSON.parse(localStorage.getItem("edit")) || "";
+console.log(login, editStatus);
 
-if (login === "success") {
-  //show login toast khi dang nhap thanh cong
+// showoffToast them class show cho msg, remove class hidden cho cac loai
+//toast (login va edit)
+//sau 2s se tu dong off toast
+function showOffToast(type) {
   document.getElementById("msg").classList.add("show");
-  document.getElementById("login-toast").classList.remove("hidden");
+  document.getElementById(`${type}-toast`).classList.remove("hidden");
   // dat bien login thanh expired de khong hien thi login toast lai nua
-  localStorage.setItem("login", JSON.stringify("expired"));
+  localStorage.setItem(type, JSON.stringify("expired"));
   setTimeout(() => {
     document.getElementById("msg").classList.remove("show");
-    document.getElementById("login-toast").classList.add("hidden");
-  }, 3000);
+    document.getElementById(`${type}-toast`).classList.add("hidden");
+  }, 2000);
+}
+if (login === "success") {
+  showOffToast("login");
 }
 if (editStatus === "success") {
-  //show login toast khi dang nhap thanh cong
-  document.getElementById("msg").classList.add("show");
-  document.getElementById("edit-toast").classList.remove("hidden");
-  // dat bien login thanh expired de khong hien thi login toast lai nua
-  localStorage.setItem("editStatus", JSON.stringify("expired"));
-  setTimeout(() => {
-    document.getElementById("msg").classList.remove("show");
-    document.getElementById("edit-toast").classList.add("hidden");
-  }, 3000);
+  showOffToast("edit");
 }
 
 // 5user trên 1 trang

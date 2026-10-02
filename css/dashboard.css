@@ -303,3 +303,6 @@ table .deactive {
   background: #ffe7e7;
   color: #dc2626;
 }
+.hidden {
+  display: none;
+}
