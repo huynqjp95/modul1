@@ -1,79 +1,61 @@
-const users = JSON.parse(localStorage.getItem("userList")) || [];
+// ----------lấy danh sách users--------
+const users = JSON.parse(localStorage.getItem("userList"));
 
-//DOM
-// const form = document.querySelector("#sign-up-form");
+//-----------DOM------------------------
 const email = document.querySelector("#email");
 const userName = document.querySelector("#username");
 const password = document.querySelector("#password");
 const msg = document.querySelector("#msg");
 const btn = document.querySelector(".btn");
 const hiddenList = Array.from(document.querySelectorAll(".hidden"));
-// cac function de validate form
-function isEmpty(element) {
-  return !element.value ? true : false;
-}
 
-// regex email. copy tu AI
-function notIsEmail(element) {
-  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return !regex.test(element.value);
-}
+//-----------Event button ---------------
+btn.onclick = function (e) {
+  e.preventDefault();
 
-// valid password phai gom chữ hoa và thường ((?=.*[0-9]).{8,}$/ số và ít nhất 8 ký tự)
-// trả về false nếu không có lỗi , có lỗi là true
-function isNotMixedCase(element) {
-  return !/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(element.value);
-}
+  // kiểm tra validate
+  if (validate()) {
+    // validate trả về true thì tạo user mới
+    const newUser = {
+      birthday: null,
+      description: null,
+      email: email.value,
+      password: password.value,
+      role: "user",
+      status: "Active",
+      usercode: Date.now().toString(),
+      username: userName.value,
+    };
 
-function hasNotDigit(element) {
-  return !/[0-9]/.test(element.value);
-}
+    // thêm newUser vào list users
+    users.push(newUser);
 
-function isLessThan(element, min) {
-  return element.value.length < min;
-}
+    // update cho cả data userList dưới localStorage
+    localStorage.setItem("userList", JSON.stringify(users));
 
-// data : users . kiem tra email ton tai chua
-function emailExist(element) {
-  return users.some((user) => {
-    return user.email === element.value;
-  });
-}
+    //đặt biến login = success dưới localStorage
+    // để khi tự chuyển sang trang sign-in thì dùng biến này để hiển thị toast đăng ký thành công
+    localStorage.setItem("login", JSON.stringify("success"));
 
-//show error chi de hien thi cac tab loi
-function showError(error) {
-  msg.classList.add("show");
-  for (const key in error) {
-    if (key == "type") {
-      msg.querySelector(`#${error[key]}`).classList.remove("hidden");
-      continue;
-    }
-    if (error[key]) {
-      msg.querySelector(`.${key}`).classList.remove("hidden");
-    }
+    window.location.href = "./sign-in.html";
   }
-}
-// hidden error
-function resetError() {
-  msg.classList.remove("show");
-  hiddenList.forEach((element) => {
-    element.classList.add("hidden");
-  });
-}
+};
 
-// validate form | hàm validate sẽ trả về true nếu không lỗi và false nếu có lỗi
-// cùng với đó nó sẽ hiển thị những error theo từng lỗi
+// hàm validate sẽ trả về true nếu tất cả các input đúng định dạng
 function validate() {
-  //reset error
+  // gọi hàm resetError để reset các error cũ
   resetError();
-  //chia nhỏ error theo từng nhóm
-  //nhóm 1 : validate error sẽ trả về lỗi để trống.
+  // tạo đối tượng error với key là các error , củng là tên class của phần hiển thị error
+  // value sẽ là return của các hàm kiểm tra định dạng
   let error = {
     type: "sign-up-validation",
     "email-cannot-blank": isEmpty(email),
     "password-cannot-blank": isEmpty(password),
     "username-cannot-blank": isEmpty(userName),
   };
+
+  // chỉ cần 1 trong 3 trường input email, password, username để trống thì hiển thị lỗi
+  // hàm validate trả về false và show ra đúng lỗi lên màn hình
   if (
     error["email-cannot-blank"] ||
     error["password-cannot-blank"] ||
@@ -82,7 +64,8 @@ function validate() {
     showError(error);
     return false;
   }
-  // nhóm 2 : sign up error
+
+  // nếu input không bị để trống thì tiếp tục kiểm tra lỗi định dạng tiếp theo của email và password
   error = {
     type: "sign-up-error",
     "email-error": notIsEmail(email),
@@ -91,6 +74,8 @@ function validate() {
     "password-number-required-error": hasNotDigit(password),
     "password-uppercase-lowercase-error": isNotMixedCase(password),
   };
+
+  // logic tương tự như trên
   if (
     error["email-error"] ||
     error["email-exist"] ||
@@ -102,28 +87,70 @@ function validate() {
     return false;
   }
 
+  // nếu không có lỗi gì return true cho hàm validate
   return true;
 }
 
-// Onclick
-btn.onclick = function (e) {
-  e.preventDefault();
-  if (validate()) {
-    //reset value ="" cho cac input
-    const newUser = {
-      birthday: null,
-      description: null,
-      email: email.value,
-      password: password.value,
-      role: "user",
-      status: "Active",
-      usercode: Date.now().toString(),
-      username: userName.value,
-    };
-    users.push(newUser);
-    localStorage.setItem("userList", JSON.stringify(users));
-    //đặt biến login để toast khi thành công đăng ký
-    localStorage.setItem("login", JSON.stringify("success"));
-    window.location.href = "./sign-in.html";
+// các hàm để kiểm tra validate cho form input . trả vè true nếu không phải định dạng
+function isEmpty(element) {
+  // kiểm tra element có empty không
+  return !element.value ? true : false;
+}
+function notIsEmail(element) {
+  // có phải element.value không phải là định dạng email ?
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return !regex.test(element.value);
+}
+function isNotMixedCase(element) {
+  // input không bao gồm chữ hoa và chữ thường phải không ?
+  return !/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(element.value);
+}
+function hasNotDigit(element) {
+  // input không có chữ số phải không ?
+  return !/[0-9]/.test(element.value);
+}
+function isLessThan(element, min) {
+  // độ dài input nhỏ hơn min phải không ?
+  return element.value.length < min;
+}
+function emailExist(element) {
+  // input đã tồn tại phải không ?
+  return users.some((user) => {
+    return user.email === element.value;
+  });
+}
+
+// hàm này chức năng hiển thị lỗi theo error truyền vào từ hàm validate
+function showError(error) {
+  msg.classList.add("show");
+  for (const key in error) {
+    // phải phân type vì trang html có 2 loại error
+    if (key == "type") {
+      msg.querySelector(`#${error[key]}`).classList.remove("hidden");
+      continue;
+    }
+    if (error[key]) {
+      msg.querySelector(`.${key}`).classList.remove("hidden");
+    }
   }
+}
+
+// hàm này chức năng thêm class hidden vào lại tất cả các element có chứa class hidden
+function resetError() {
+  msg.classList.remove("show");
+  hiddenList.forEach((element) => {
+    element.classList.add("hidden");
+  });
+}
+
+// ẩn hiện password khi nhấn icon eye
+const faEye = document.querySelector(".fa-eye");
+const faEyeSlash = document.querySelector(".fa-eye-slash");
+faEye.onclick = () => {
+  password.type = "text";
+  faEyeSlash.style.display = "inline-block";
+};
+faEyeSlash.onclick = () => {
+  password.type = "password";
+  faEyeSlash.style.display = "none";
 };

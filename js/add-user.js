@@ -1,5 +1,5 @@
 const users = JSON.parse(localStorage.getItem("userList"));
-let indexAdd = JSON.parse(localStorage.getItem("add"));
+let loginIndex = JSON.parse(localStorage.getItem("loginIndex")) || "";
 
 (() => {
   const userCode = document.getElementById("user-code");
@@ -14,50 +14,44 @@ let indexAdd = JSON.parse(localStorage.getItem("add"));
   const msg = document.getElementById("msg");
   const hiddenList = Array.from(document.querySelectorAll(".hidden"));
 
-  userCode.value = users[indexEdit].usercode;
-  userName.value = users[indexEdit].username;
-  email.value = users[indexEdit].email;
-  password.value = users[indexEdit].password;
-  role.value = users[indexEdit].role;
-  birthday.value = users[indexEdit].birthday;
-  description.value = users[indexEdit].description;
-  if (users[indexEdit].status === "Deactive") {
-    deactive.checked = true;
-  }
-
-  const btnSave = document.querySelector(".save-btn");
+  const btnAdd = document.querySelector(".add-btn");
   const btnBack = document.querySelector(".back-btn");
-  btnBack.onclick = () => {
+
+  // evebt btn back . tại sao nút btn back không có type submit lại nhận event của form nhỉ
+  btnBack.onclick = (e) => {
+    e.preventDefault();
     window.location.href = "./dashboard.html";
   };
-  btnSave.onclick = (e) => {
+
+  // event btn add . trang add chỉ
+  btnAdd.onclick = (e) => {
     e.preventDefault();
 
     if (validate()) {
       const newUser = {
-        usercode: users[indexEdit].usercode,
+        usercode: Date.now().toString(),
         username: userName.value,
-        email: users[indexEdit].email,
+        email: email.value,
         password: password.value,
         role: role.value.toLowerCase(),
         birthday: birthday.value,
         status: active.checked ? active.value : deactive.value,
         description: description.value,
       };
-      users.splice(indexEdit, 1, newUser);
+      users.push(newUser);
+      //form reset. vì không phải load trang khác nên phải reset form/
+      document.getElementById("add-new-user-form").reset();
+
+      //hiển thị toast khi add thành công
+      showOffToast("add");
       localStorage.setItem("userList", JSON.stringify(users));
-      //đặt biến login để toast khi thành công đăng ký
-      localStorage.setItem("edit", JSON.stringify("success"));
-      window.location.href = "./dashboard.html";
     }
   };
 
-  //showError function vi phai dung bien msg trong nay nen bo vo day
+  //showError function giống như sign-up và edit-user
   function showError(error) {
     msg.classList.add("show");
-    msg.querySelector("#edit-error").classList.remove("hidden");
-
-    console.log(msg);
+    msg.querySelector("#add-error").classList.remove("hidden");
 
     for (const key in error) {
       if (error[key]) {
@@ -66,10 +60,10 @@ let indexAdd = JSON.parse(localStorage.getItem("add"));
       }
     }
   }
+
   // reset error function
   function resetError() {
     msg.classList.remove("show");
-    msg.querySelector("#edit-error").classList.remove("hidden");
     hiddenList.forEach((element) => {
       element.classList.add("hidden");
     });
@@ -78,15 +72,17 @@ let indexAdd = JSON.parse(localStorage.getItem("add"));
   //validate function
   function validate() {
     resetError();
-
     let error = {
-      "username-and-password-empty": isEmpty(password) || isEmpty(userName),
+      "email-username-password-empty":
+        isEmpty(password) || isEmpty(userName) || isEmpty(email),
     };
-    if (error["username-and-password-empty"]) {
+    if (error["email-username-password-empty"]) {
       showError(error);
       return false;
     }
     error = {
+      "email-exist": emailExist(email),
+      "email-error": notIsEmail(email),
       "password-min-length-error": isLessThan(password, 8),
       "password-number-required-error": hasNotDigit(password),
       "password-uppercase-lowercase-error": isNotMixedCase(password),
@@ -96,6 +92,13 @@ let indexAdd = JSON.parse(localStorage.getItem("add"));
       error["password-number-required-error"] ||
       error["password-uppercase-lowercase-error"]
     ) {
+      showError(error);
+      return false;
+    }
+    if (users[loginIndex].role !== "admin") {
+      error = {
+        "role-not-admin": true,
+      };
       showError(error);
       return false;
     }
@@ -131,4 +134,14 @@ function emailExist(element) {
   return users.some((user) => {
     return user.email === element.value;
   });
+}
+
+function showOffToast(type) {
+  document.getElementById("msg").classList.add("show");
+  document.getElementById(`${type}-toast`).classList.remove("hidden");
+
+  setTimeout(() => {
+    document.getElementById("msg").classList.remove("show");
+    document.getElementById(`${type}-toast`).classList.add("hidden");
+  }, 2000);
 }

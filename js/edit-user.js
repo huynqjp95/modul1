@@ -1,7 +1,9 @@
 const users = JSON.parse(localStorage.getItem("userList"));
 let indexEdit = JSON.parse(localStorage.getItem("edit"));
 
+// function IIFE , chạy luôn và không cần gọi hàm.
 (() => {
+  //----- DOM -------
   const userCode = document.getElementById("user-code");
   const userName = document.getElementById("username");
   const email = document.getElementById("email");
@@ -14,6 +16,7 @@ let indexEdit = JSON.parse(localStorage.getItem("edit"));
   const msg = document.getElementById("msg");
   const hiddenList = Array.from(document.querySelectorAll(".hidden"));
 
+  // Hiển thị thông tin user đã được nhấn edit từ Dashboard
   userCode.value = users[indexEdit].usercode;
   userName.value = users[indexEdit].username;
   email.value = users[indexEdit].email;
@@ -27,9 +30,12 @@ let indexEdit = JSON.parse(localStorage.getItem("edit"));
 
   const btnSave = document.querySelector(".save-btn");
   const btnBack = document.querySelector(".back-btn");
+  // Nhấn nút back quay lại dashboard
   btnBack.onclick = () => {
     window.location.href = "./dashboard.html";
   };
+
+  // Nhấn nút save lưu thông tin đã edit và quay trở lại dashboard
   btnSave.onclick = (e) => {
     e.preventDefault();
 
@@ -46,26 +52,24 @@ let indexEdit = JSON.parse(localStorage.getItem("edit"));
       };
       users.splice(indexEdit, 1, newUser);
       localStorage.setItem("userList", JSON.stringify(users));
-      //đặt biến login để toast khi thành công đăng ký
+      //đặt biến edit để hiển thị toast thành công khi quay trở lại dashboard
       localStorage.setItem("edit", JSON.stringify("success"));
       window.location.href = "./dashboard.html";
     }
   };
 
-  //showError function vi phai dung bien msg trong nay nen bo vo day
+  // hiển thị theo tham số nhập vào khác một tý với trang sign-up
   function showError(error) {
     msg.classList.add("show");
     msg.querySelector("#edit-error").classList.remove("hidden");
 
-    console.log(msg);
-
     for (const key in error) {
       if (error[key]) {
         msg.querySelector(`.${key}`).classList.remove("hidden");
-        console.log(msg.querySelector(`.${key}`));
       }
     }
   }
+
   // reset error function
   function resetError() {
     msg.classList.remove("show");
@@ -75,7 +79,7 @@ let indexEdit = JSON.parse(localStorage.getItem("edit"));
     });
   }
 
-  //validate function
+  //validate function , giống với sign-up nhưng trong error không phân type nửa
   function validate() {
     resetError();
 
@@ -104,8 +108,7 @@ let indexEdit = JSON.parse(localStorage.getItem("edit"));
   }
 })();
 
-// cac tool check
-
+// cac tool check định dạng input, giống với sign-up
 function isEmpty(element) {
   return !element.value ? true : false;
 }
@@ -132,3 +135,15 @@ function emailExist(element) {
     return user.email === element.value;
   });
 }
+
+// ẩn hiện password khi nhấn icon eye (copy từ sign-up qua)
+const faEye = document.querySelector(".fa-eye");
+const faEyeSlash = document.querySelector(".fa-eye-slash");
+faEye.onclick = () => {
+  password.type = "text";
+  faEyeSlash.style.display = "inline-block";
+};
+faEyeSlash.onclick = () => {
+  password.type = "password";
+  faEyeSlash.style.display = "none";
+};

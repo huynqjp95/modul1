@@ -1,10 +1,13 @@
-const users = JSON.parse(localStorage.getItem("userList")) || [];
-let login = JSON.parse(localStorage.getItem("login")) || "";
-let editStatus = JSON.parse(localStorage.getItem("edit")) || "";
-console.log(login, editStatus);
+// lấy dữ liệu từ localStorage
+const users = JSON.parse(localStorage.getItem("userList"));
+let login = JSON.parse(localStorage.getItem("login"));
+let editStatus = JSON.parse(localStorage.getItem("edit"));
 
-//hàm này dùng để hiển thị toast , khi đăng nhập thành công thì hiển thị đăng nhập thành công
-// khi edit 1 user thành công thì hiển thị edit thành công rồi 2s tự động tắt
+// nếu các biến success thì hiển thị toast thành công
+login === "success" && showOffToast("login");
+editStatus === "success" && showOffToast("edit");
+
+// hàm hiện toast , và tắt sau 2s
 function showOffToast(type) {
   document.getElementById("msg").classList.add("show");
   document.getElementById(`${type}-toast`).classList.remove("hidden");
@@ -15,39 +18,12 @@ function showOffToast(type) {
     document.getElementById(`${type}-toast`).classList.add("hidden");
   }, 2000);
 }
-if (login === "success") {
-  showOffToast("login");
-}
-if (editStatus === "success") {
-  showOffToast("edit");
-}
 
-// 5 user trên 1 trang
+// biến cố định số user trên 1 trang
 const ITEMS_PER_PAGE = 5;
-// hàm lấy maxpage
+// hàm lấy tổng số trang theo số user
 function getMaxPage() {
   return Math.ceil(users.length / ITEMS_PER_PAGE);
-}
-// hàm render user theo arr được truyền vào , ví dụ user hoặc cho hiển thị 5 user theo arr
-function renderUsers(arr) {
-  const html = arr.reduce((html, e) => {
-    return (html += `
-      <tr>
-        <td>${e.usercode}</td>
-        <td>${e.username}</td>
-        <td>${e.email}</td>
-        <td>${e.role}</td>
-        <td>${e.birthday}</td>
-        <td>${e.status}</td>
-        <td>${e.description}</td>
-        <td>
-          <button class="btn btn-edit" data-id="${e.usercode}">Edit</button>
-          <button class="btn btn-delete" data-id="${e.usercode}">Delete</button>
-        </td>
-      </tr>
-    `);
-  }, "");
-  document.getElementById("table-body").innerHTML = html;
 }
 
 // search event mỗi khi input vào ô input thì sẽ hiển thị danh sách theo input đã nhập
@@ -58,6 +34,11 @@ document.getElementById("search-box").addEventListener("input", function () {
   pageWakeru(arr);
   displayPageNum(arr);
 });
+
+// hiển thị số page
+displayPageNum(users);
+// hàm hiển thị user theo page
+pageWakeru(users);
 
 // hàm này hiển thị số trang (ở giữa 2 cái button trái phải)
 function displayPageNum(arr) {
@@ -74,13 +55,9 @@ function displayPageNum(arr) {
 
 // hàm chia page, mỗi page hiển thị 5 user
 function pageWakeru(userList) {
-  // num là số trang đang hiển thị , khởi tạo = 1 , khi người dùng nhấn tăng giảm hoặc chọn page
-  // thì sẽ thay đổi làm cho các hiển thị user thay đổi tương ứng.
+  // biến số trang ở hiển thị
   let num = 1;
   const maxpage = getMaxPage();
-
-  //hiển thị số trang
-  displayPageNum(userList);
 
   const select = document.getElementById("select");
   select.addEventListener("change", function () {
@@ -105,18 +82,17 @@ function pageWakeru(userList) {
     renderUsers(takeIndex(userList));
   };
 
-  // hàm này làm nhiệm vụ tạo ra 1 arr chỉ 5 phần tử tương ứng theo số page
+  // hàm này làm nhiệm vụ tạo ra 1 arr chỉ 5 phần tử tương ứng theo num
   function takeIndex(arr) {
     return arr.filter((e, i) => {
       return i >= (num - 1) * 5 && i <= num * 5 - 1;
     });
   }
 }
-//chay hien thi page luon
-pageWakeru(users);
 
 // event click cho cac btn edit delete
 document.getElementById("table-body").addEventListener("click", (e) => {
+  // nếu nhấn delete btn thi xóa xong hiển thị lại users
   if (e.target.classList.contains("btn-delete")) {
     const indexDelete = users.findIndex(
       (el) => el.usercode === e.target.dataset.id,
@@ -126,7 +102,7 @@ document.getElementById("table-body").addEventListener("click", (e) => {
     pageWakeru(users);
     return;
   }
-
+  // nut edit , lấy được index muốn edit gửi xuống local
   if (e.target.classList.contains("btn-edit")) {
     const indexEdit = users.findIndex(
       (el) => el.usercode === e.target.dataset.id,
@@ -136,3 +112,25 @@ document.getElementById("table-body").addEventListener("click", (e) => {
     window.location.href = "./edit-user.html";
   }
 });
+
+// hàm render user theo arr được truyền vào , ví dụ user hoặc cho hiển thị 5 user theo arr
+function renderUsers(arr) {
+  const html = arr.reduce((html, e) => {
+    return (html += `
+      <tr>
+        <td>${e.usercode}</td>
+        <td>${e.username}</td>
+        <td>${e.email}</td>
+        <td>${e.role}</td>
+        <td>${e.birthday}</td>
+        <td>${e.status}</td>
+        <td>${e.description}</td>
+        <td>
+          <button class="btn btn-edit" data-id="${e.usercode}">Edit</button>
+          <button class="btn btn-delete" data-id="${e.usercode}">Delete</button>
+        </td>
+      </tr>
+    `);
+  }, "");
+  document.getElementById("table-body").innerHTML = html;
+}
