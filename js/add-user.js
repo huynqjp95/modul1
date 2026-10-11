@@ -1,5 +1,5 @@
 const users = JSON.parse(localStorage.getItem("userList"));
-let loginIndex = JSON.parse(localStorage.getItem("loginIndex")) || "";
+let loginUser = JSON.parse(localStorage.getItem("loginUser"));
 
 (() => {
   const userCode = document.getElementById("user-code");
@@ -29,7 +29,7 @@ let loginIndex = JSON.parse(localStorage.getItem("loginIndex")) || "";
 
     if (validate()) {
       const newUser = {
-        usercode: Date.now().toString(),
+        usercode: "U" + updateQuantityUser(),
         username: userName.value,
         email: email.value,
         password: password.value,
@@ -56,7 +56,6 @@ let loginIndex = JSON.parse(localStorage.getItem("loginIndex")) || "";
     for (const key in error) {
       if (error[key]) {
         msg.querySelector(`.${key}`).classList.remove("hidden");
-        console.log(msg.querySelector(`.${key}`));
       }
     }
   }
@@ -87,7 +86,10 @@ let loginIndex = JSON.parse(localStorage.getItem("loginIndex")) || "";
       "password-number-required-error": hasNotDigit(password),
       "password-uppercase-lowercase-error": isNotMixedCase(password),
     };
+
     if (
+      error["email-exist"] ||
+      error["email-error"] ||
       error["password-min-length-error"] ||
       error["password-number-required-error"] ||
       error["password-uppercase-lowercase-error"]
@@ -95,7 +97,7 @@ let loginIndex = JSON.parse(localStorage.getItem("loginIndex")) || "";
       showError(error);
       return false;
     }
-    if (users[loginIndex].role !== "admin") {
+    if (loginUser.role !== "admin") {
       error = {
         "role-not-admin": true,
       };
@@ -144,4 +146,14 @@ function showOffToast(type) {
     document.getElementById("msg").classList.remove("show");
     document.getElementById(`${type}-toast`).classList.add("hidden");
   }, 2000);
+}
+
+function updateQuantityUser() {
+  let quantity = JSON.parse(localStorage.getItem("quanlityUser"));
+  if (!quantity) {
+    quantity = users.length;
+  }
+  localStorage.setItem("quantityUser", quantity + 1);
+
+  return quantity + 1;
 }

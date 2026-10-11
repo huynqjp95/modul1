@@ -100,6 +100,7 @@ document.getElementById("table-body").addEventListener("click", (e) => {
     users.splice(indexDelete, 1);
     localStorage.setItem("userList", JSON.stringify(users));
     pageWakeru(users);
+    displayPageNum(users);
     return;
   }
   // nut edit , lấy được index muốn edit gửi xuống local
@@ -112,7 +113,6 @@ document.getElementById("table-body").addEventListener("click", (e) => {
     window.location.href = "./edit-user.html";
   }
 });
-
 // hàm render user theo arr được truyền vào , ví dụ user hoặc cho hiển thị 5 user theo arr
 function renderUsers(arr) {
   const html = arr.reduce((html, e) => {

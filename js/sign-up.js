@@ -16,6 +16,7 @@ btn.onclick = function (e) {
   // kiểm tra validate
   if (validate()) {
     // validate trả về true thì tạo user mới
+
     const newUser = {
       birthday: null,
       description: null,
@@ -23,7 +24,7 @@ btn.onclick = function (e) {
       password: password.value,
       role: "user",
       status: "Active",
-      usercode: Date.now().toString(),
+      usercode: "U" + updateQuantityUser(),
       username: userName.value,
     };
 
@@ -154,3 +155,13 @@ faEyeSlash.onclick = () => {
   password.type = "password";
   faEyeSlash.style.display = "none";
 };
+
+function updateQuantityUser() {
+  let quantity = JSON.parse(localStorage.getItem("quanlityUser"));
+  if (!quantity) {
+    quantity = users.length;
+  }
+  localStorage.setItem("quantityUser", quantity + 1);
+
+  return quantity + 1;
+}
