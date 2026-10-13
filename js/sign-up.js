@@ -162,6 +162,5 @@ function updateQuantityUser() {
     quantity = users.length;
   }
   localStorage.setItem("quantityUser", quantity + 1);
-
   return quantity + 1;
 }

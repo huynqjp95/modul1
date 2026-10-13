@@ -1,5 +1,6 @@
 // lấy dữ liệu từ localStorage
 const users = JSON.parse(localStorage.getItem("userList"));
+
 let login = JSON.parse(localStorage.getItem("login"));
 let editStatus = JSON.parse(localStorage.getItem("edit"));
 
@@ -42,7 +43,7 @@ pageWakeru(users);
 
 // hàm này hiển thị số trang (ở giữa 2 cái button trái phải)
 function displayPageNum(arr) {
-  const maxpage = Math.ceil(arr.length / 5);
+  const maxpage = Math.ceil(arr.length / ITEMS_PER_PAGE);
   let html = "";
   for (let i = 1; i <= maxpage; i++) {
     html += `
@@ -85,7 +86,7 @@ function pageWakeru(userList) {
   // hàm này làm nhiệm vụ tạo ra 1 arr chỉ 5 phần tử tương ứng theo num
   function takeIndex(arr) {
     return arr.filter((e, i) => {
-      return i >= (num - 1) * 5 && i <= num * 5 - 1;
+      return i >= (num - 1) * ITEMS_PER_PAGE && i <= num * ITEMS_PER_PAGE - 1;
     });
   }
 }

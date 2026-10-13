@@ -157,3 +157,15 @@ function updateQuantityUser() {
 
   return quantity + 1;
 }
+
+// ẩn hiện password khi nhấn icon eye (copy từ sign-up qua)
+const faEye = document.querySelector(".fa-eye");
+const faEyeSlash = document.querySelector(".fa-eye-slash");
+faEye.onclick = () => {
+  password.type = "text";
+  faEyeSlash.style.display = "inline-block";
+};
+faEyeSlash.onclick = () => {
+  password.type = "password";
+  faEyeSlash.style.display = "none";
+};

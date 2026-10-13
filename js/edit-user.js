@@ -50,7 +50,14 @@ let indexEdit = JSON.parse(localStorage.getItem("edit"));
         status: active.checked ? active.value : deactive.value,
         description: description.value,
       };
+
       users.splice(indexEdit, 1, newUser);
+      //trường hợp nếu edit user đang login, thì phải sửa luôn thông tin của loginUser dưới local
+      const loginUser = JSON.parse(localStorage.getItem("loginUser"));
+      if (loginUser.usercode === newUser.usercode) {
+        localStorage.setItem("loginUser", JSON.stringify(newUser));
+      }
+
       localStorage.setItem("userList", JSON.stringify(users));
       //đặt biến edit để hiển thị toast thành công khi quay trở lại dashboard
       localStorage.setItem("edit", JSON.stringify("success"));
